@@ -576,7 +576,12 @@ autocmd BufNewFile *.sh,*.py,*.c,*.h,*.cpp,*.rb,*.java exec ":call AutoSetFileHe
 function! AutoSetFileHead()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
-        call setline(1, "\#!/bin/bash")
+	call append(line("."), "\#	> File Name: ".expand("%"))
+	call append(line(".")+1, "\#	> Author: Chieh")
+	call append(line(".")+2, "\#	> Mail: djchieh@gmail.com")
+	call append(line(".")+3, "\#	> Created Time: ".strftime("%c"))
+	call append(line(".")+4, "")	
+        call setline(5, "\#!/bin/bash")
     endif
 
     "如果文件类型为python
@@ -589,7 +594,9 @@ function! AutoSetFileHead()
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")
 	    call append(line(".")+1, "")
-    else
+    endif
+
+	if &filetype == 'cpp'
 		call setline(1, "/*************************************************************************")
 		call append(line("."), "	> File Name: ".expand("%"))
 		call append(line(".")+1, "	> Author: Chieh")
@@ -597,27 +604,38 @@ function! AutoSetFileHead()
 		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
 		call append(line(".")+4, " ************************************************************************/")
 		call append(line(".")+5, "")
-	endif
-
-	if &filetype == 'cpp'
 		call append(line(".")+6, "#include <iostream>")
 		call append(line(".")+7, "using namespace std;")
 		call append(line(".")+8, "")
 	endif
 
 	if &filetype == 'c'
+		call setline(1, "/*************************************************************************")
+		call append(line("."), "	> File Name: ".expand("%"))
+		call append(line(".")+1, "	> Author: Chieh")
+		call append(line(".")+2, "	> Mail: djchieh@gmail.com")
+		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+		call append(line(".")+4, " ************************************************************************/")
+		call append(line(".")+5, "")
 		call append(line(".")+6, "#include <stdio.h>")
 		call append(line(".")+7, "#include <stdlib.h>")
 		call append(line(".")+8, "#include <string.h>")
 		call append(line(".")+9, "")
-        call append(line(".")+10, "int main(int argc, char * argv[])")
-        call append(line(".")+11, "{")
+		call append(line(".")+10, "int main(int argc, char * argv[])")
+		call append(line(".")+11, "{")
 		call append(line(".")+12, "")
 		call append(line(".")+13, " return 0;")
-        call append(line(".")+14, "}")
+		call append(line(".")+14, "}")
 	endif
 
 	if expand("%:e") == 'h'
+		call setline(1, "/*************************************************************************")
+		call append(line("."), "	> File Name: ".expand("%"))
+		call append(line(".")+1, "	> Author: Chieh")
+		call append(line(".")+2, "	> Mail: djchieh@gmail.com")
+		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+		call append(line(".")+4, " ************************************************************************/")
+		call append(line(".")+5, "")
 		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
 		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
 		call append(line(".")+8, "#endif")
