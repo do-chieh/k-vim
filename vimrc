@@ -1,13 +1,3 @@
-"==========================================
-" Author:  wklken
-" Version: 9.1
-" Email: wklken@yeah.net
-" BlogPost: http://www.wklken.me
-" ReadMe: README.md
-" Donation: http://www.wklken.me/pages/donation.html
-" Last_modify: 2015-12-15
-" Sections:
-"       -> Initial Plugin 加载插件
 "       -> General Settings 基础设置
 "       -> Display Settings 展示/排版等界面格式设置
 "       -> FileEncode Settings 文件编码设置
@@ -15,7 +5,6 @@
 "       -> HotKey Settings  自定义快捷键
 "       -> FileType Settings  针对文件类型的设置
 "       -> Theme Settings  主题设置
-"
 "       -> 插件配置和具体设置在vimrc.bundles中
 "==========================================
 
@@ -89,9 +78,9 @@ set noswapfile
 set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
 
 " 突出显示当前列
-set cursorcolumn
+"set cursorcolumn
 " 突出显示当前行
-set cursorline
+"set cursorline
 
 
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
@@ -225,20 +214,20 @@ set ttyfast
 set nrformats=
 
 " 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
-set relativenumber number
-au FocusLost * :set norelativenumber number
-au FocusGained * :set relativenumber
+"set relativenumber number
+"au FocusLost * :set norelativenumber number
+"au FocusGained * :set relativenumber
 " 插入模式下用绝对行号, 普通模式下用相对
-autocmd InsertEnter * :set norelativenumber number
-autocmd InsertLeave * :set relativenumber
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set norelativenumber number
-  else
-    set relativenumber
-  endif
-endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+"autocmd InsertEnter * :set norelativenumber number
+"autocmd InsertLeave * :set relativenumber
+"function! NumberToggle()
+"  if(&relativenumber == 1)
+""    set norelativenumber number
+""  else
+""    set relativenumber
+""  endif
+"endfunc
+"nnoremap <C-n> :call NumberToggle()<cr>
 
 " 防止tmux下vim的背景色显示异常
 " Refer: http://sunaku.github.io/vim-256color-bce.html
@@ -366,6 +355,9 @@ set pastetoggle=<F5>            "    when in insert mode, press <F5> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 
+"<F7> gdb
+"nnoremap <F7> :set
+"<F8> treelist
 " disbale paste mode when leaving insert mode
 au InsertLeave * set nopaste
 
@@ -580,7 +572,7 @@ autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,pe
 
 
 " 定义函数AutoSetFileHead，自动插入文件头
-autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+autocmd BufNewFile *.sh,*.py,*.c,*.h,*.cpp,*.rb,*.java exec ":call AutoSetFileHead()"
 function! AutoSetFileHead()
     "如果文件类型为.sh文件
     if &filetype == 'sh'
@@ -593,6 +585,48 @@ function! AutoSetFileHead()
         call append(1, "\# encoding: utf-8")
     endif
 
+    if &filetype == 'ruby'
+        call setline(1,"#!/usr/bin/env ruby")
+        call append(line("."),"# encoding: utf-8")
+	    call append(line(".")+1, "")
+    else
+		call setline(1, "/*************************************************************************")
+		call append(line("."), "	> File Name: ".expand("%"))
+		call append(line(".")+1, "	> Author: Chieh")
+		call append(line(".")+2, "	> Mail: djchieh@gmail.com")
+		call append(line(".")+3, "	> Created Time: ".strftime("%c"))
+		call append(line(".")+4, " ************************************************************************/")
+		call append(line(".")+5, "")
+	endif
+
+	if &filetype == 'cpp'
+		call append(line(".")+6, "#include <iostream>")
+		call append(line(".")+7, "using namespace std;")
+		call append(line(".")+8, "")
+	endif
+
+	if &filetype == 'c'
+		call append(line(".")+6, "#include <stdio.h>")
+		call append(line(".")+7, "#include <stdlib.h>")
+		call append(line(".")+8, "#include <string.h>")
+		call append(line(".")+9, "")
+        call append(line(".")+10, "int main(int argc, char * argv[])")
+        call append(line(".")+11, "{")
+		call append(line(".")+12, "")
+		call append(line(".")+13, " return 0;")
+        call append(line(".")+14, "}")
+	endif
+
+	if expand("%:e") == 'h'
+		call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
+		call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
+		call append(line(".")+8, "#endif")
+	endif
+
+	if &filetype == 'java'
+		call append(line(".")+6,"public class ".expand("%:r"))
+		call append(line(".")+7,"")
+	endif
     normal G
     normal o
     normal o
@@ -663,8 +697,8 @@ endif
 set background=dark
 set t_Co=256
 
-colorscheme solarized
-" colorscheme molokai
+"colorscheme solarized
+colorscheme molokai
 " colorscheme desert
 
 

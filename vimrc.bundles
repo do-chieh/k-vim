@@ -46,11 +46,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'Raimondi/delimitMate'
 " 自动补全html/xml标签
 Plug 'docunext/closetag.vim'
-
-" quick edit
 " 快速注释
 Plug 'scrooloose/nerdcommenter'
-
 
 " 快速加入修改环绕字符
 " for repeat -> enhance surround.vim, . to repeat command
@@ -135,7 +132,12 @@ Plug 'altercation/vim-colors-solarized'
 " molokai
 " 主题 molokai
 Plug 'tomasr/molokai'
-
+"##############自定义plug
+"接口和实现切换
+Plug 'vim-scripts/a.vim'
+"
+"
+"#########################
 
 " nav
 " nerdtree nerdtreetabs
